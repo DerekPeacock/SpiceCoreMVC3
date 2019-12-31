@@ -9,6 +9,7 @@ using SpiceCoreMVC3.Web.Models;
 
 namespace SpiceCoreMVC3.Web.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
