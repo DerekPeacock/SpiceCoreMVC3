@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SpiceCoreMVC3.Web.Models.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<header class="jumbotron">
+    <h1>Category List</h1>
+</header>
+
+<section class="background-white background-border">
+    
+    <div class="row">
+        <div class="col-6">
+            @if(Model.Count() > 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.Id)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Categories Exist Yet...</p>
+            }
+
+        </div>
+        <div class="col-6 text-right">
+            <p>
+                <partial name="_AddButton" />
+            </p>
+        </div>
+    </div>
+
+
+
+</section>
