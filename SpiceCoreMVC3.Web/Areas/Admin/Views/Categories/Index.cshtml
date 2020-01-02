@@ -28,10 +28,10 @@
                                 <td>
                                     @Html.DisplayFor(m => item.Id)
                                 </td>
-                                <td style="width:150px;">
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <td style="width:200px;">
+                                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                                     <partial name="_TableButtons" model="item.Id" />
                                 </td>
                             </tr>
