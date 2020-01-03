@@ -11,85 +11,90 @@ using SpiceCoreMVC3.Web.Models;
 namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class SubCategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public SubCategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/SubCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.OrderBy(i => i.MenuOrder).ToListAsync());
+            var subCategories = _context.SubCategories.Include(s => s.Category);
+            return View(await subCategories.ToListAsync());
         }
 
-        // GET: Admin/Categories/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: Admin/SubCategories/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var subCategory = await _context.SubCategories
+                .Include(s => s.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (subCategory == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(subCategory);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/SubCategories/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/SubCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId")] SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(subCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", subCategory.CategoryId);
+            return View(subCategory);
         }
 
-        // GET: Admin/Categories/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: Admin/SubCategories/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var subCategory = await _context.SubCategories.FindAsync(id);
+            if (subCategory == null)
             {
                 return NotFound();
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", subCategory.CategoryId);
+            return View(subCategory);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/SubCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId")] SubCategory subCategory)
         {
-            if (id != category.Id)
+            if (id != subCategory.Id)
             {
                 return NotFound();
             }
@@ -98,12 +103,12 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(subCategory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!SubCategoryExists(subCategory.Id))
                     {
                         return NotFound();
                     }
@@ -114,41 +119,43 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", subCategory.CategoryId);
+            return View(subCategory);
         }
 
-        // GET: Admin/Categories/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // GET: Admin/SubCategories/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var subCategory = await _context.SubCategories
+                .Include(s => s.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (subCategory == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(subCategory);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/SubCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
+            var subCategory = await _context.SubCategories.FindAsync(id);
+            _context.SubCategories.Remove(subCategory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(string id)
+        private bool SubCategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.SubCategories.Any(e => e.Id == id);
         }
     }
 }

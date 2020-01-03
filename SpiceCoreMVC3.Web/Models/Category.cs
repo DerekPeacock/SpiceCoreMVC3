@@ -13,5 +13,8 @@ namespace SpiceCoreMVC3.Web.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [StringLength(20), DisplayName("Name")]
         public string Id { get; set; }
+
+        [Range(1,20), DisplayName("Menu Order")]
+        public Nullable<int> MenuOrder { get; set; }
     }
 }
