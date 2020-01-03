@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SpiceCoreMVC3.Web.Data;
 using SpiceCoreMVC3.Web.Models;
+using SpiceCoreMVC3.Web.Models.ViewModels;
 
 namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 {
@@ -50,7 +51,15 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
-            return View();
+
+            SubCategoryViewModel model = new SubCategoryViewModel
+            {
+                CategoryList = _context.Categories.ToList(),
+                SubCategory = new SubCategory(),
+                SubCategoryList = _context.SubCategories.OrderBy(i=>i.Name).Select(i=>i.Name).ToList<string>(),
+            };
+
+            return View(model);
         }
 
         // POST: Admin/SubCategories/Create

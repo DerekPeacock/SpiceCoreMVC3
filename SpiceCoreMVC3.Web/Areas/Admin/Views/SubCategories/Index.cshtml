@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SpiceCoreMVC3.Web.Models.SubCategory>
+﻿@model IEnumerable<SubCategory>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,10 +15,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            @Html.DisplayNameFor(model => model.Category)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Category)
+                            @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
                             Actions
@@ -28,20 +28,29 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Category.Id)
-                            </td>
-                            <td>
-                                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                  <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                                <partial name="_TableButtons" />
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.Category.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Name)
+                        </td>
+                        <td>
+                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <partial name="_TableButtons" model="item.CategoryId" />*@
+                            <a class="btn btn-success text-white" asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="fas fa-list"></i>
+                            </a>
+                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
