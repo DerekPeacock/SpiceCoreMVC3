@@ -166,5 +166,17 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         {
             return _context.SubCategories.Any(e => e.Id == id);
         }
+
+        [ActionName("GetSubCategories")]
+        public IActionResult GetSubCategories(string id)
+        {
+            List<SubCategory> subCategories = new List<SubCategory>();
+
+            subCategories = (from subCategory in _context.SubCategories
+                             where subCategory.CategoryId == id
+                             select subCategory).ToList();
+
+            return Json(new SelectList(subCategories, "Id", "Id"));
+        }
     }
 }
