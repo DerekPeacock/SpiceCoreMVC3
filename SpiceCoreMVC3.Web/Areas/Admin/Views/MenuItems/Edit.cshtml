@@ -25,8 +25,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Spicyness" class="control-label"></label>
-                <input asp-for="Spicyness" class="form-control" />
-                <span asp-validation-for="Spicyness" class="text-danger"></span>
+                @Html.DropDownList("Spicyness", Html.GetEnumSelectList<SpicyRating>(),
+                    "Select Spicyness", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label asp-for="ImageURL" class="control-label"></label>

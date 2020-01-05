@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SpiceCoreMVC3.Web.Data;
 using SpiceCoreMVC3.Web.Models;
+using SpiceCoreMVC3.Web.Models.ViewModels;
 
 namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 {
@@ -17,10 +18,19 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
+        [BindProperty]
+        public MenuItemViewModel MenuItemVM { get; set; }
+
         public MenuItemsController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            
+            MenuItemVM = new MenuItemViewModel()
+            {
+                MenuItem = new MenuItem()
+
+            };
         }
 
         // GET: Admin/MenuItems
@@ -53,8 +63,8 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         // GET: Admin/MenuItems/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId");
+            CreateDropDowns(null);
+
             return View();
         }
 
@@ -71,8 +81,9 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", menuItem.CategoryId);
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId", menuItem.SubCategoryId);
+
+            CreateDropDowns(menuItem);
+
             return View(menuItem);
         }
 
@@ -89,8 +100,9 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", menuItem.CategoryId);
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId", menuItem.SubCategoryId);
+
+            CreateDropDowns(menuItem);
+
             return View(menuItem);
         }
 
@@ -126,8 +138,9 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", menuItem.CategoryId);
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId", menuItem.SubCategoryId);
+
+            CreateDropDowns(menuItem);
+
             return View(menuItem);
         }
 
@@ -165,6 +178,20 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         private bool MenuItemExists(int id)
         {
             return _context.MenuItems.Any(e => e.Id == id);
+        }
+
+        private void CreateDropDowns(MenuItem menuItem)
+        {
+            if(menuItem == null)
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+                ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId");
+            }
+            else
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", menuItem.CategoryId);
+                ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId", menuItem.SubCategoryId);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ using SpiceCoreMVC3.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 namespace SpiceCoreMVC3.Web
 {

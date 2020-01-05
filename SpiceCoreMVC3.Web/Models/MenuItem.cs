@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SpiceCoreMVC3.Web.Models
@@ -14,14 +15,13 @@ namespace SpiceCoreMVC3.Web.Models
         [Required, StringLength(20)]
         public string Name { get; set; }
 
+        [DataType(DataType.MultilineText), StringLength(1000)]
         public string Description { get; set; }
 
-        public string Spicyness { get; set; }
-
-        public enum SpicyRating { NA, NotSpicy, Spicy, VerySpicy, RedHot}
+        public SpicyRating Spicyness { get; set; }
 
         [DataType(DataType.ImageUrl)]
-        [StringLength(120)]
+        [StringLength(120), Display(Name ="Image Upload")]
         public string ImageURL { get; set; }
 
         [StringLength(20)]
@@ -29,7 +29,7 @@ namespace SpiceCoreMVC3.Web.Models
 
         public int SubCategoryId { get; set; }
 
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:c}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -37,5 +37,22 @@ namespace SpiceCoreMVC3.Web.Models
 
         [ForeignKey("SubCategoryId")]
         public virtual SubCategory SubCategory { get; set; }
+
     }
+
+    //[JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum SpicyRating
+    {
+        [Display(Name = "N/A")]
+        NA,
+        [Display(Name = "Not Spicy")]
+        NotSpicy,
+        [Display(Name = "Spicy")]
+        Spicy,
+        [Display(Name = "Very Spicy")]
+        VerySpicy,
+        [Display(Name = "Red Hot")]
+        RedHot
+    }
+
 }

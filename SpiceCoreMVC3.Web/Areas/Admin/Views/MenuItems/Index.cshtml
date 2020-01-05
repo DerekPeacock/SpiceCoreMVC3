@@ -1,17 +1,28 @@
 ﻿@model IEnumerable<SpiceCoreMVC3.Web.Models.MenuItem>
 
 @{
-    ViewData["Title"] = "Index";
+    string entity = "Menu Item";
+    ViewData["Title"] = entity + " List";
 }
 
-<h1>Index</h1>
+<header class="jumbotron">
+    <section class="border background-white">
+        <div class="row">
+            <div class="col-6">
+                <h1>Menu Item List</h1>
+            </div>
+            <div class="col-6">
+                <partial name="_AddButton" model="@entity" />
+            </div>
+        </div>
+    </section>
+</header>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+
+
+<table class="table table-striped border">
     <thead>
-        <tr>
+        <tr class="bg-info">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>

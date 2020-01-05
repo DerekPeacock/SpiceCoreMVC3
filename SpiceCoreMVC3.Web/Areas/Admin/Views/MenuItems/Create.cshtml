@@ -1,16 +1,16 @@
 ﻿@model SpiceCoreMVC3.Web.Models.MenuItem
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Menu Items";
 }
 
-<h1>Create</h1>
+<h1>Add Menu Items</h1>
 
 <h4>MenuItem</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -24,12 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Spicyness" class="control-label"></label>
-                <input asp-for="Spicyness" class="form-control" />
+                
+                @Html.DropDownList("Spicyness", Html.GetEnumSelectList<SpicyRating>(),
+                    "Select Spicyness", new { @class = "form-control" })
+
+                @*<select asp-for="Spicyness" asp-items="Html.GetEnumSelectList<SpicyRating>()" class="form-control" />*@
                 <span asp-validation-for="Spicyness" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ImageURL" class="control-label"></label>
-                <input asp-for="ImageURL" class="form-control" />
+                <input asp-for="ImageURL" type="file" multiple class="form-control" />
                 <span asp-validation-for="ImageURL" class="text-danger"></span>
             </div>
             <div class="form-group">
