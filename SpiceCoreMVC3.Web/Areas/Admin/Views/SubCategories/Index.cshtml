@@ -6,7 +6,16 @@
 }
 
 <header class="jumbotron">
-    <h1>Sub Categories List</h1>
+    <section class="border background-white">
+        <div class="row">
+            <div class="col-6">
+                <h1>Category List</h1>
+            </div>
+            <div class="col-6">
+                <partial name="_AddButton" model="name" />
+            </div>
+        </div>
+    </section>
 </header>
 
 <section class="background-white background-border">
@@ -46,7 +55,7 @@
         </div>
         <div class="col-6">
             <p>
-                <partial name="_AddButton" model="name" />
+                @*<partial name="_AddButton" model="name" />*@
             </p>
         </div>
     </div>

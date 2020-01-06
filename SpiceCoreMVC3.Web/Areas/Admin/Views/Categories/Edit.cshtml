@@ -1,22 +1,17 @@
 ﻿@model SpiceCoreMVC3.Web.Models.Category
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Category";
 }
 
-<h1>Edit</h1>
+<h1>Edit Category</h1>
 
-<h4>Category</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <partial name="_CategoryForm" />
-            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="text" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>*@
         </form>
     </div>
 </div>

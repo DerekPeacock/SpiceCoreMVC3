@@ -55,7 +55,7 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,MenuOrder")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id")] Category category)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,MenuOrder")] Category category)
         {
             if (id != category.Id)
             {
