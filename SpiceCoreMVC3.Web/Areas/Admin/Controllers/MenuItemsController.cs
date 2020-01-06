@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -79,12 +80,42 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             {
                 _context.Add(menuItem);
                 await _context.SaveChangesAsync();
+
+                UploadImage(menuItem);
+
                 return RedirectToAction(nameof(Index));
             }
 
             CreateDropDowns(menuItem);
 
             return View(menuItem);
+        }
+
+        private void UploadImage(MenuItem menuItem)
+        {
+            string webRootpath = _hostingEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            if (files.Count() > 0)
+            {
+                var uploads = Path.Combine(webRootpath, "images");
+                var extension = Path.GetExtension(files[0].FileName);
+                string filename = "MenuItem" + menuItem.Id + extension;
+
+                using (var filestream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                {
+                    files[0].CopyTo(filestream);
+                };
+
+                menuItem.ImageURL = filename;
+
+            }
+            else
+            {
+                var uploads = Path.Combine(webRootpath, @"images\" + "DefaultFoodImage");
+            }
+
+            _context.SaveChanges();
         }
 
         // GET: Admin/MenuItems/Edit/5

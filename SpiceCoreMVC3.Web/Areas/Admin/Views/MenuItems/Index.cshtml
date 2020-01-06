@@ -60,9 +60,10 @@
                 @Html.DisplayFor(modelItem => item.SubCategory.CategoryId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                <partial name="_TableButtons" model="item.Id.ToString()" />
             </td>
         </tr>
 }

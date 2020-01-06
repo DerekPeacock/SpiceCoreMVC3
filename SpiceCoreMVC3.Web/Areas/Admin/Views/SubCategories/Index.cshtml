@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    string name = "Sub Category";
 }
 
 <header class="jumbotron">
@@ -36,19 +37,7 @@
                             @Html.DisplayFor(m => item.Name)
                         </td>
                         <td>
-                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                <partial name="_TableButtons" model="item.CategoryId" />*@
-                            <a class="btn btn-success text-white" asp-action="Edit" asp-route-id="@item.Id">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.Id">
-                                <i class="fas fa-list"></i>
-                            </a>
-                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <partial name="_TableButtons" model="item.Id.ToString()" />
                         </td>
                     </tr>
                     }
@@ -57,7 +46,7 @@
         </div>
         <div class="col-6">
             <p>
-                <partial name="_AddButton" />
+                <partial name="_AddButton" model="name" />
             </p>
         </div>
     </div>

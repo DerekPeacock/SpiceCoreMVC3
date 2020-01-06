@@ -1,15 +1,8 @@
-﻿@model Category
+﻿@model string
 
 <div class="form-group">
     <a class="btn btn-info" asp-action="Index">
         <i class="fas fa-backward"></i>&nbsp;Back
     </a>
-    @if (Model == null)
-    {
-        <input type="submit" value="Add" class="btn btn-success" />
-    }
-    else
-    {
-        <input type="submit" value="Save" class="btn btn-success" />
-    }
+    <input type="submit" value="@Model" class="btn btn-success" />
 </div>

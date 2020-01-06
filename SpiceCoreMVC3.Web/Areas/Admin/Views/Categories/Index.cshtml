@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Categories";
+    string name = "Category";
 }
 
 <header class="jumbotron">
@@ -30,9 +31,6 @@
                                     @Html.DisplayFor(m => item.Id)
                                 </td>
                                 <td style="width:200px;">
-                                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                                     <partial name="_TableButtons" model="item.Id" />
                                 </td>
                             </tr>
@@ -48,7 +46,7 @@
         </div>
         <div class="col-6 text-right">
             <p>
-                <partial name="_AddButton" />
+                <partial name="_AddButton" model="name" />
             </p>
         </div>
     </div>
