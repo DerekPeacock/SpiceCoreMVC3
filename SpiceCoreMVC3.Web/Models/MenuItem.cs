@@ -24,9 +24,10 @@ namespace SpiceCoreMVC3.Web.Models
         [StringLength(120), Display(Name ="Image Upload")]
         public string ImageURL { get; set; }
 
-        [StringLength(20)]
+        [StringLength(20), Display(Name ="Category")]
         public string CategoryId { get; set; }
 
+        [Display(Name="Sub Category")]
         public int SubCategoryId { get; set; }
 
         [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:c}", ApplyFormatInEditMode = true)]

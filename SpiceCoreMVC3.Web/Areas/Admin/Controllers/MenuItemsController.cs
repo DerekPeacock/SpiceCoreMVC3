@@ -81,7 +81,7 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 _context.Add(menuItem);
                 await _context.SaveChangesAsync();
 
-                UploadImage(menuItem);
+                //UploadImage(menuItem);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -91,13 +91,24 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             return View(menuItem);
         }
 
+        /// <summary>
+        /// This method checks wether any files have been selected for uploading
+        /// If so the file is uploaded to the images folder, else the default food image
+        /// is used.
+        /// </summary>
         private void UploadImage(MenuItem menuItem)
         {
             string webRootpath = _hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files;
 
+            // New image fil to upload
             if (files.Count() > 0)
             {
+                if(menuItem.ImageURL != null)
+                {
+                    var oldImagePath = Path.Combine(webRootpath, menuItem.ImageURL.TrimStart('\\'));
+                }
+
                 var uploads = Path.Combine(webRootpath, "images");
                 var extension = Path.GetExtension(files[0].FileName);
                 string filename = "MenuItem" + menuItem.Id + extension;
@@ -108,11 +119,16 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 };
 
                 menuItem.ImageURL = filename;
-
             }
-            else
+            else // Use the Default Image
             {
-                var uploads = Path.Combine(webRootpath, @"images\" + "DefaultFoodImage");
+                // Make a Copy of the file (Why not use the file??)
+                //var uploads = Path.Combine(webRootpath, @"images\" + "DefaultFoodImage");
+                //string filename = "MenuItem" + menuItem.Id + ".png";
+
+                //System.IO.File.Copy(uploads, webRootpath + @"\images\" + filename);
+                //menuItem.ImageURL = filename;
+                menuItem.ImageURL = "DefaultFood.png";
             }
 
             _context.SaveChanges();
@@ -155,6 +171,8 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
                 {
                     _context.Update(menuItem);
                     await _context.SaveChangesAsync();
+
+                    //UploadImage(menuItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -221,7 +239,7 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             else
             {
                 ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", menuItem.CategoryId);
-                ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "CategoryId", menuItem.SubCategoryId);
+                ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Name", menuItem.SubCategoryId);
             }
         }
     }
