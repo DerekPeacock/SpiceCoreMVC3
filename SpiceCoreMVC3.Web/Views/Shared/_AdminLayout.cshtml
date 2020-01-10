@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SpiceCoreMVC3.Web</title>
+    <title>@ViewData["Title"] - Spice Core MVC3</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://kit.fontawesome.com/e2a2f290bd.js" crossorigin="anonymous"></script>
@@ -29,11 +29,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="SubCategories" asp-action="Index">Sub Categories</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Coupons" asp-action="Index">Coupons</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -47,5 +52,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.tiny.cloud/1/ic3er4l0r6tuk8n7q2fpb2o9iut7qo6ijywuohffsy38asou/tinymce/5/tinymce.min.js"></script>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

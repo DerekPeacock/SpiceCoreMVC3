@@ -4,24 +4,22 @@
     ViewData["Title"] = "Create Menu Items";
 }
 
-<header class="jumbotron">
-    <h1>Add Menu Items</h1>
+<h1>Add Menu Items</h1>
 
-</header>
-
-
+<h4>MenuItem</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
 
-        <form method="post" asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data">
             <partial name="_MenuItemForm" />
+            
         </form>
     </div>
 </div>
 
 
-@section Scripts{
+@section Scripts{ 
     <script>
         tinymce.init({
             selector: 'textarea',

@@ -11,9 +11,8 @@
 <hr />
 <div class="row">
     <div class="col-5 offset-1">
-        <form asp-action="Edit"enctype="multipart/form-data">
+        <form method="post" asp-action="Edit"enctype="multipart/form-data">
             <partial name="_MenuItemForm" model="Model" />
-           
         </form>
     </div>
     <div class="col-6">

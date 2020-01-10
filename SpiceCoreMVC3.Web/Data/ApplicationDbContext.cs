@@ -17,5 +17,6 @@ namespace SpiceCoreMVC3.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
     }
 }
