@@ -39,6 +39,15 @@
 <br/><br/>
 
 <div class="background-white container">
+
+    <ul class="list-inline text-center">
+        <li class="menu-filter-list active btn btn-secondary ml-1 mr-1">Show All</li>
+        @foreach(var item in Model.Categories)
+        {
+            <li class="menu-filter-list ml-1 mr-1">@item.Id</li>
+        }
+    </ul>
+    <br/>
     @foreach(var item in Model.Categories)
     {
         <div class="row" id="menu-wrapper">
