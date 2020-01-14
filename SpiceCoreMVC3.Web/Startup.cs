@@ -63,6 +63,7 @@ namespace SpiceCoreMVC3.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
