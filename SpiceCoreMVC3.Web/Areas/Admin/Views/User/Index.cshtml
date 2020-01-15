@@ -1,0 +1,78 @@
+﻿@model IEnumerable<SpiceCoreMVC3.Web.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "User List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<header class="jumbotron">
+    <section class="border background-white">
+        <div class="row">
+            <div class="col-6">
+                <h1>List of Registered Users</h1>
+            </div>
+            <div class="col-6">
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info">
+                    <i class="fas fas-plus"> Add User</i>
+                </a>
+            </div>
+        </div>
+    </section>
+</header>
+
+<section class="background-white background-border">
+
+    <div class="row">
+        <div class="col-8">
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(i => item.Name):
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.PhoneNumber)
+                            </td>
+
+                            <td style="width:200px;">
+                                <a class="btn btn-info text-white" asp-action="Lock" asp-route-id="@item.Id">
+                                    <i class="fas fa-lock-open"> Lock</i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Registered Users Exist Yet...</p>
+            }
+
+        </div>
+        <div class="col-6 text-right">
+            <p>
+                @*<partial name="_AddButton" model="name" />*@
+            </p>
+        </div>
+    </div>
+
+
+
+</section>
+
+
