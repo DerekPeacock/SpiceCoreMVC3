@@ -9,5 +9,6 @@ namespace SpiceCoreMVC3.Web.Models
     {
         public const string STAFF_USER = "Staff";
         public const string CUSTOMER_USER = "Customer";
+        public const string CART_COUNT = "CartCount";
     }
 }

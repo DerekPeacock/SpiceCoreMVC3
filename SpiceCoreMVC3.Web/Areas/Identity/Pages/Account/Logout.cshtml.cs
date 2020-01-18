@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SpiceCoreMVC3.Web.Models;
 
 namespace SpiceCoreMVC3.Web.Areas.Identity.Pages.Account
 {
@@ -30,6 +32,9 @@ namespace SpiceCoreMVC3.Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, 0);
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
