@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SpiceCoreMVC3.Web.Data;
 using SpiceCoreMVC3.Web.Models;
@@ -33,6 +34,19 @@ namespace SpiceCoreMVC3.Web.Controllers
             };
 
             return View(homeVM);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var menuItem = await _context.MenuItems.Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
+
+            Order order = new Order
+            {
+                MenuItem = menuItem,
+                MenuItemID = menuItem.Id
+            };
+
+            return View(order);
         }
 
         public IActionResult Privacy()

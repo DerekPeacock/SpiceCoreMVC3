@@ -12,7 +12,9 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-menubar border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Spice Core MVC3</a>
+
+                <partial name="_SpiceLogo" />
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,23 +22,44 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item dropdown text-white-50">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Content Management
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                <a class="dropdown-item" asp-action="Index" asp-controller="Categories" asp-area="Admin">Category</a>
-                                <a class="dropdown-item" asp-action="Index" asp-controller="SubCategories" asp-area="Admin">Sub Category</a>
-                                <a class="dropdown-item">MenuItem</a>
-                                <a class="dropdown-item">Coupons</a>
-                                <a class="dropdown-item">Users</a>
-                            </div>
-                        </li>*@ 
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Content Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+
+                                    <a class="dropdown-item" asp-action="Index"
+                                       asp-controller="Categories" asp-area="Admin">Category</a>
+
+                                    <a class="dropdown-item" asp-action="Index"
+                                       asp-controller="SubCategories" asp-area="Admin">Sub Category</a>
+
+                                    <a class="dropdown-item" asp-action="Index"
+                                       asp-controller="SubCategories" asp-area="Admin">MenuItem</a>
+
+                                    <a class="dropdown-item">Coupons</a>
+                                    <a class="dropdown-item">Users</a>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li style="color:white">
+                                <i href="#" class="fas fa-shopping-cart"></i>
+                                &nbsp; (0)
+                            </li>
+                        }
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="Customer"
+                               asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="Customer"
+                               asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>
