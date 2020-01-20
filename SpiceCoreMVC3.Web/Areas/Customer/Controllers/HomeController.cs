@@ -50,20 +50,23 @@ namespace SpiceCoreMVC3.Web.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            Order order = await CreateNewOrder(id);
+            //Order order = await CreateNewOrder(id);
+            var menuItem = await _context.MenuItems.Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
 
-            return View("MenuItem", order);
+            return View("MenuItem", menuItem);
         }
 
         private async Task<Order> CreateNewOrder(int id)
         {
             var menuItem = await _context.MenuItems.Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
 
+            OrderHeader cart = new OrderHeader();
+
+            //cart.OrderItems.Add(menuItem);
             Order order = new Order
             {
                 MenuItem = menuItem,
                 MenuItemID = menuItem.Id,
-                CustomerID = "Null"
             };
 
             return order;
@@ -72,39 +75,46 @@ namespace SpiceCoreMVC3.Web.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(Order order)
+        public async Task<IActionResult> Details([Bind("Id,Name,Description,Spicyness,ImageURL,CategoryId,SubCategoryId,Price")] MenuItem item)
         {
             if(ModelState.IsValid)
             {
                 var claimsIdentity = (ClaimsIdentity)this.User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userID = claim.Value;
 
-                order.CustomerID = claim.Value;
-
-                Order orderFromDb = await _context.Orders.Where(c => c.CustomerID == order.CustomerID 
-                                        && c.MenuItemID == order.MenuItemID).FirstOrDefaultAsync();
+                OrderHeader orderFromDb = await _context.OrderHeaders.Where(c => c.UserId == userID).FirstOrDefaultAsync();
+                
                 if(orderFromDb == null)
                 {
-                    await _context.Orders.AddAsync(order);
-                }
-                else
-                {
-                    order.Quantity += 1;
+
+                    OrderHeader order = new OrderHeader();
+                    order.UserId = userID;
+
+                    await _context.OrderHeaders.AddAsync(order);
+                    await _context.SaveChangesAsync();
+
+                    OrderItem orderItem = new OrderItem()
+                    {
+                        Quantity = 1,
+                        MenuItemId = item.Id,
+                        OrderId = order.Id,
+                        Price = item.Price
+                    };
+
+                    await _context.OrderItems.AddAsync(orderItem);
+                    await _context.SaveChangesAsync();
                 }
 
-                await _context.SaveChangesAsync();
-
-                var count = _context.Orders.Where(c => c.CustomerID == order.CustomerID).ToList().Count();
-                HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, count);
+                //var count = _context.Orders.Where(c => c.CustomerID == order.CustomerID).ToList().Count();
+                //HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, count);
 
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(order);
+                return View(item);
             }
-
-            
         }
 
 

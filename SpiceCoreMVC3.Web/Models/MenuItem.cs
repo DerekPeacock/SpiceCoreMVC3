@@ -30,7 +30,7 @@ namespace SpiceCoreMVC3.Web.Models
         [Display(Name="Sub Category")]
         public int SubCategoryId { get; set; }
 
-        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
 
         [ForeignKey("CategoryId")]

@@ -13,7 +13,6 @@ namespace SpiceCoreMVC3.Web.Models
         [DisplayFormat(DataFormatString ="{0:yyyy.mm.dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOrdered { get; set; }
 
-        [Required]
         public string CustomerID { get; set; }
 
         [Required]

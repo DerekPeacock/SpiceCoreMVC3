@@ -25,5 +25,9 @@ namespace SpiceCoreMVC3.Web.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }
