@@ -55,15 +55,19 @@
                             if (count != null)
                             {
                                 <li style="color:white">
-                                    <i href="#" class="fas fa-shopping-cart"></i>
-                                    &nbsp; (@count)
+                                    <a asp-action="Index" asp-area="Admin" asp-controller="Cart" style="color:white">
+                                        <i href="#" class="fas fa-shopping-cart"></i>
+                                        &nbsp; (@count)
+                                    </a>
                                 </li>
                             }
                             else
                             {
-                                <li style="color:white">
-                                    <i href="#" class="fas fa-shopping-cart"></i>
-                                    &nbsp; (0)
+                                <li>
+                                    <a asp-action="Index" asp-area="Admin" asp-controller="Cart" style="color:white">
+                                        <i href="#" class="fas fa-shopping-cart"></i>
+                                        &nbsp; (0)
+                                    </a>
                                 </li>
                             }
                         }

@@ -39,6 +39,9 @@ namespace SpiceCoreMVC3.Web.Models
         [Display(Name = "Payment Status")]
         public PaymentStatus PaymentStatus { get; set; }
 
+        [NotMapped]
+        public decimal TotalCost { get; set; }
+
         [StringLength(60)]
         public string TransactionId { get; set; }
 
@@ -54,6 +57,7 @@ namespace SpiceCoreMVC3.Web.Models
             PaymentStatus = PaymentStatus.NOT_PAID;
             OrderStatus = OrderStatus.STARTED;
             Discount = 0;
+            TotalCost = 0;
         }
     }
 

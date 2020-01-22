@@ -1,0 +1,80 @@
+﻿@model SpiceCoreMVC3.Web.Models.OrderHeader
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if(Model.OrderItems.Count > 0)
+{
+    <section class="background-border background-white">
+        <div class="container">
+            <article class="card">
+                <header class="card-header bg-dark text-light ml-0 row container">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart">
+                            &nbsp; Shopping Cart
+                        </i>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-info">
+                            Continue Shopping
+                        </a>
+                    </div>
+                </header>
+                <section class="card-body">
+                    @foreach(var item in Model.OrderItems)
+                    {
+                        <div class="row">
+                            <div class="d-none d-lg-block col-lg-2 text-center">
+                                <img class="rounded py-2" src="\images\@item.MenuItem.ImageURL" width="120" />
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-5 text-lg-left">
+                                <h5>@item.MenuItem.Name</h5>
+                                <small>@Html.DisplayFor(model => item.MenuItem.Description)</small>
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                <div class="col-5 col-lg-4 text-md-right" style="padding-top:5px;">
+                                    <h6>
+                                        £@item.Price
+                                        <span class="text-muted">x</span>
+                                        @item.Quantity
+                                    </h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6">
+                                    <div class="float-right mx-1">
+                                        <button type="submit" class="btn btn-primary" asp-action="plus" asp-route-cartId="@item.Id">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="float-right mx-1">
+                                        <button type="submit" class="btn btn-danger" asp-action="minus" asp-route-cartId="@item.Id">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                    <button type="submit" class="btn btn-outline-danger" asp-action="remove" asp-route-cartId="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    <div class="row">
+
+                    </div>
+                </section>
+            </article>
+        </div>
+    </section>
+}
+else
+{
+    <div class="background-border background-white">
+        <p>
+            Not Items have been added to the shopping cart!
+        </p>
+    </div>
+}
+

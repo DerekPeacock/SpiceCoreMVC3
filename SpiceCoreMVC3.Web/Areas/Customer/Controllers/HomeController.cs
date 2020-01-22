@@ -39,9 +39,14 @@ namespace SpiceCoreMVC3.Web.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(claim != null)
+            if(claim != null) // Customer is logged in
             {
-                var count = _context.Orders.Where(u => u.CustomerID == claim.Value).ToList().Count;
+                OrderHeader order = _context.OrderHeaders
+                    .Where(c => c.UserId == claim.Value && c.OrderStatus == OrderStatus.STARTED)
+                    .Include(o => o.OrderItems)
+                    .FirstOrDefault();
+
+                var count = order.OrderItems.Count;
                 HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, count);
             }
 
@@ -51,14 +56,18 @@ namespace SpiceCoreMVC3.Web.Controllers
         public async Task<IActionResult> Details(int id)
         {
             //Order order = await CreateNewOrder(id);
-            var menuItem = await _context.MenuItems.Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
+            var menuItem = await _context.MenuItems
+                .Include(m => m.SubCategory).Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
 
             return View("MenuItem", menuItem);
         }
 
         private async Task<Order> CreateNewOrder(int id)
         {
-            var menuItem = await _context.MenuItems.Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
+            var menuItem = await _context.MenuItems
+                .Include(m => m.SubCategory)
+                .Where(m => m.Id == id).FirstOrDefaultAsync();
 
             OrderHeader cart = new OrderHeader();
 
@@ -75,7 +84,7 @@ namespace SpiceCoreMVC3.Web.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details([Bind("Id,Name,Description,Spicyness,ImageURL,CategoryId,SubCategoryId,Price")] MenuItem item)
+        public async Task<IActionResult> Details([Bind("Id,Name,Description,Spicyness,ImageURL,CategoryId,SubCategoryId,Price")] MenuItem menuItem)
         {
             if(ModelState.IsValid)
             {
@@ -83,40 +92,70 @@ namespace SpiceCoreMVC3.Web.Controllers
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 var userID = claim.Value;
 
-                OrderHeader orderFromDb = await _context.OrderHeaders.Where(c => c.UserId == userID).FirstOrDefaultAsync();
+                OrderHeader order = await _context.OrderHeaders
+                    .Where(c => c.UserId == userID && c.OrderStatus == OrderStatus.STARTED)
+                    .Include(o => o.OrderItems)
+                    .FirstOrDefaultAsync();
                 
-                if(orderFromDb == null)
+                if(order == null)
                 {
 
-                    OrderHeader order = new OrderHeader();
+                    order = new OrderHeader();
                     order.UserId = userID;
 
                     await _context.OrderHeaders.AddAsync(order);
                     await _context.SaveChangesAsync();
 
-                    OrderItem orderItem = new OrderItem()
-                    {
-                        Quantity = 1,
-                        MenuItemId = item.Id,
-                        OrderId = order.Id,
-                        Price = item.Price
-                    };
+                    await AddOrderItem(menuItem, order);
+                }
+                else
+                {
+                    bool itemFound = false;
 
-                    await _context.OrderItems.AddAsync(orderItem);
-                    await _context.SaveChangesAsync();
+                    foreach(OrderItem orderItem in order.OrderItems)
+                    {
+                        if(orderItem.MenuItemId == menuItem.Id)
+                        {
+                            itemFound = true;
+                            orderItem.Quantity++;
+
+                            _context.Update(orderItem);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+
+                    if(itemFound == false)
+                    {
+                        await AddOrderItem(menuItem, order);
+                    }
                 }
 
-                //var count = _context.Orders.Where(c => c.CustomerID == order.CustomerID).ToList().Count();
-                //HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, count);
+                int count = order.OrderItems.Count;
+                HttpContext.Session.SetInt32(SpiceConstants.CART_COUNT, count);
 
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(item);
+                return View(menuItem);
             }
         }
 
+        private async Task AddOrderItem(MenuItem menuItem, OrderHeader order)
+        {
+            OrderItem orderItem = new OrderItem()
+            {
+                Quantity = 1,
+                MenuItemId = menuItem.Id,
+                OrderId = order.Id,
+                Price = menuItem.Price
+            };
+
+            order.OrderItems.Add(orderItem);
+
+            await _context.OrderItems.AddAsync(orderItem);
+            await _context.SaveChangesAsync();
+        }
 
         public IActionResult Privacy()
         {
