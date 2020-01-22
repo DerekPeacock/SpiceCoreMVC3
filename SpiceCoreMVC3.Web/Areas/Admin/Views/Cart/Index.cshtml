@@ -29,7 +29,7 @@
                                 <img class="rounded py-2" src="\images\@item.MenuItem.ImageURL" width="120" />
                             </div>
                             <div class="col-12 text-sm-center col-lg-5 text-lg-left">
-                                <h5>@item.MenuItem.Name</h5>
+                                <h5><span class="text-info">@item.MenuItem.CategoryId: </span>@item.MenuItem.Name</h5>
                                 <small>@Html.DisplayFor(model => item.MenuItem.Description)</small>
                             </div>
                             <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
@@ -62,7 +62,21 @@
                         <hr />
                     }
                     <div class="row">
+                        <div class="col-12 col-md-5">
+                            <div class="row">
+                                <div class="col-7">
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 offset-1 col-lg-4 offset-lg-3 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <span class="text-info">Total (GBP)</span>
+                                    <strong class="text-info">£@Model.TotalCost</strong>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </section>
             </article>
