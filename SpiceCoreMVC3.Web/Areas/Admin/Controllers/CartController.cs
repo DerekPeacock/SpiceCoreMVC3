@@ -61,5 +61,34 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 
             return order;
         }
+
+        public async Task<IActionResult> Plus(int id)
+        {
+            var item = await _db.OrderItems.FirstOrDefaultAsync(c => c.Id == id);
+            item.Quantity += 1;
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Minus(int id)
+        {
+            var item = await _db.OrderItems.FirstOrDefaultAsync(c => c.Id == id);
+            
+            if(item.Quantity == 1)
+            {
+                _db.OrderItems.Remove(item);
+                await _db.SaveChangesAsync();
+
+                GetShoppingCart();
+            }
+            else
+            {
+                item.Quantity -= 1;
+                await _db.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

@@ -40,22 +40,22 @@
                                         @item.Quantity
                                     </h6>
                                 </div>
-                                <div class="col-6 col-sm-4 col-lg-6">
+                                <div class="col-5 col-sm-4 col-lg-6">
                                     <div class="float-right mx-1">
-                                        <button type="submit" class="btn btn-primary" asp-action="plus" asp-route-cartId="@item.Id">
+                                        <a class="btn btn-primary" asp-action="plus" asp-route-Id="@item.Id">
                                             <i class="fa fa-plus"></i>
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="float-right mx-1">
-                                        <button type="submit" class="btn btn-danger" asp-action="minus" asp-route-cartId="@item.Id">
+                                        <a class="btn btn-danger" asp-action="minus" asp-route-Id="@item.Id">
                                             <i class="fa fa-minus"></i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-2 col-sm-4 col-lg-2 text-right">
-                                    <button type="submit" class="btn btn-outline-danger" asp-action="remove" asp-route-cartId="@item.Id">
+                                    <a class="btn btn-outline-danger" asp-action="remove" asp-route-Id="@item.Id">
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -79,6 +79,13 @@
                         </div>
                     </div>
                 </section>
+                <footer class="card-footer">
+                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4 text-right">
+                        <a asp-action="Summary" asp-area="Admin" asp-controller="Cart" class="btn btn-success">
+                            Checkout Order
+                        </a>
+                    </div>
+                </footer>
             </article>
         </div>
     </section>
