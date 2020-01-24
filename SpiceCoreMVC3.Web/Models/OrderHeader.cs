@@ -30,6 +30,9 @@ namespace SpiceCoreMVC3.Web.Models
         [StringLength(30), Display(Name ="Pickup Name")]
         public string PickupName { get; set; }
 
+        [StringLength(20)]
+        public string PhoneNumber { get; set; }
+
         [StringLength(250), DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 

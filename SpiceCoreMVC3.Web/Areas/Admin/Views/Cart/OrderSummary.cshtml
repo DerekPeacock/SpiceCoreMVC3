@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if(Model.OrderItems.Count > 0)
+@if (Model.OrderItems.Count > 0)
 {
     <section class="background-border background-white">
         <div class="container">
@@ -12,17 +12,17 @@
                 <header class="card-header bg-dark text-light ml-0 row container">
                     <div class="col-6">
                         <i class="fa fa-shopping-cart">
-                            &nbsp; Shopping Cart
+                            &nbsp; Order Summary
                         </i>
                     </div>
                     <div class="col-6 text-right">
                         <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-info">
-                            Continue Shopping
+                            Back to Shopping Cart
                         </a>
                     </div>
                 </header>
                 <section class="card-body">
-                    @foreach(var item in Model.OrderItems)
+                    @*@foreach (var item in Model.OrderItems)
                     {
                         <div class="row">
                             <div class="d-none d-lg-block col-lg-2 text-center">
@@ -77,14 +77,14 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div>*@
                 </section>
                 <footer class="card-footer">
-                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4 text-right">
-                        <a asp-action="OrderSummary" asp-area="Admin" asp-controller="Cart" class="btn btn-success">
+                    @*<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4 text-right">
+                        <a asp-action="Summary" asp-area="Admin" asp-controller="Cart" class="btn btn-success">
                             Checkout Order
                         </a>
-                    </div>
+                    </div>*@
                 </footer>
             </article>
         </div>
@@ -98,4 +98,3 @@ else
         </p>
     </div>
 }
-

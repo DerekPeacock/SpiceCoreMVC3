@@ -12,7 +12,7 @@ using SpiceCoreMVC3.Web.Models;
 
 namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"),Authorize]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -31,7 +31,12 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             return View(order);
         }
 
-        [Authorize]
+        public async Task<IActionResult> OrderSummary()
+        {
+            OrderHeader order = GetShoppingCart();
+            return View(order);
+        }
+
         public OrderHeader GetShoppingCart()
         {
             OrderHeader order = null;
@@ -43,10 +48,13 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
             {
                 order = _db.OrderHeaders
                     .Where(c => c.UserId == claim.Value && c.OrderStatus == OrderStatus.STARTED)
-                    .Include(o => o.OrderItems)
+                    .Include(o => o.OrderItems).Include(c => c.ApplicationUser)
                     .FirstOrDefault();
 
                 order.TotalCost = 0;
+                order.PickupName = order.ApplicationUser.UserName;
+                order.PhoneNumber = order.ApplicationUser.PhoneNumber;
+                order.PickupTime = DateTime.Now;
 
                 foreach(var item in order.OrderItems)
                 {
@@ -89,6 +97,19 @@ namespace SpiceCoreMVC3.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            var item = await _db.OrderItems.FirstOrDefaultAsync(c => c.Id == id);
+
+            _db.OrderItems.Remove(item);
+            await _db.SaveChangesAsync();
+
+            GetShoppingCart();
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }
